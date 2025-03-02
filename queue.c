@@ -259,11 +259,7 @@ void q_reverseK(struct list_head *head, int k)
     list_splice_init(&new_head, head);
 }
 
-bool cmp(const char *s1, const char *s2)
-{
-    return strcmp(s1, s2) > 0 ? true : false;
-}
-
+/* Sort elements of queue in ascending/descending order */
 void mergeTwoLists(struct list_head *L1, struct list_head *L2, bool descend)
 {
     if (!L1 || !L2)
@@ -281,7 +277,7 @@ void mergeTwoLists(struct list_head *L1, struct list_head *L2, bool descend)
     list_splice_tail_init(list_empty(L1) ? L2 : L1, &head);
     list_splice(&head, L1);
 }
-/* Sort elements of queue in ascending/descending order */
+
 void q_sort(struct list_head *head, bool descend)
 {
     // https://hackmd.io/IKsnn85aRHGMrNcRP7BJ1Q?view#2024q1-Homework1-lab0

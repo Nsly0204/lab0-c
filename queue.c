@@ -390,3 +390,43 @@ int q_merge(struct list_head *head, bool descend)
     }
     return queue_size;
 }
+
+/* replace func copy from list.h */
+static inline void list_replace(struct list_head *old, struct list_head *new)
+{
+    new->next = old->next;
+    new->next->prev = new;
+    new->prev = old->prev;
+    new->prev->next = new;
+}
+
+/* swap func copy from list.h */
+static inline void list_swap(struct list_head *entry1, struct list_head *entry2)
+{
+    struct list_head *pos = entry2->prev;
+
+    list_del(entry2);
+    list_replace(entry1, entry2);
+    if (pos == entry1)
+        pos = entry2;
+    list_add(entry1, pos);
+}
+
+/* Fisher-Yates Shuffle */
+void q_shuffle(struct list_head *head)
+{
+    if (!head || list_empty(head) || list_is_singular(head))
+        return;
+    int cnt = q_size(head);
+    struct list_head *entry = head->prev;
+    struct list_head *safe = entry->prev;
+    for (; cnt > 0; entry = safe, safe = safe->prev) {
+        int idx = rand() % (cnt--);
+        struct list_head *tmp = head;
+        for (; idx > 0; tmp = tmp->next, idx--) {
+        }
+        if (tmp == entry)  // skip swap
+            continue;
+        list_swap(tmp, entry);
+    }
+}

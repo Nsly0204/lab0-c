@@ -913,6 +913,27 @@ static bool do_merge(int argc, char *argv[])
     return ok && !error_check();
 }
 
+static bool do_shuffle(int argc, char *argv[])
+{
+    if (argc != 1) {
+        report(1, "%s takes no arguments", argv[0]);
+        return false;
+    }
+
+    if (!current || !current->q)
+        report(3, "Warning: Calling shuffle on null queue");
+    error_check();
+
+    set_noallocate_mode(true);
+    if (current && exception_setup(true))
+        q_shuffle(current->q);
+    exception_cancel();
+
+    set_noallocate_mode(false);
+    q_show(3);
+    return !error_check();
+}
+
 static bool is_circular()
 {
     struct list_head *cur = current->q->next;
@@ -1094,6 +1115,7 @@ static void console_init()
                 "Remove every node which has a node with a strictly greater "
                 "value anywhere to the right side of it",
                 "");
+    ADD_COMMAND(shuffle, "Do Fisher-Yates shuffle", "");
     ADD_COMMAND(reverseK, "Reverse the nodes of the queue 'K' at a time",
                 "[K]");
     add_param("length", &string_length, "Maximum length of displayed string",

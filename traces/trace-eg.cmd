@@ -17,6 +17,8 @@ it bear
 reverse
 # See how long it is
 size
+# test shuffle
+shuffle
 # Delete queue.  Goes back to a NULL queue.
 free
 # Exit program

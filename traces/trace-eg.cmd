@@ -19,6 +19,10 @@ reverse
 size
 # test shuffle
 shuffle
+# test shuffle
+shuffle
+# test shuffle
+shuffle
 # Delete queue.  Goes back to a NULL queue.
 free
 # Exit program

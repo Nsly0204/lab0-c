@@ -417,16 +417,17 @@ void q_shuffle(struct list_head *head)
 {
     if (!head || list_empty(head) || list_is_singular(head))
         return;
-    int cnt = q_size(head);
+    int remain = q_size(head);
     struct list_head *entry = head->prev;
     struct list_head *safe = entry->prev;
-    for (; cnt > 0; entry = safe, safe = safe->prev) {
-        int idx = rand() % (cnt--);
+    for (; remain > 0; safe = safe->prev) {
+        int idx = rand() % (remain--);
         struct list_head *tmp = head;
-        for (; idx > 0; tmp = tmp->next, idx--) {
+        for (; idx >= 0; idx--) {
+            tmp = tmp->next;
         }
-        if (tmp == entry)  // skip swap
-            continue;
-        list_swap(tmp, entry);
+        if (tmp != entry)  // skip swap fatal
+            list_swap(tmp, entry);
+        entry = safe;
     }
 }
